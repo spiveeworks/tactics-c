@@ -1,0 +1,142 @@
+#ifndef SPIVCOPY
+#define SPIVCOPY
+
+/* and begin */
+#include <stdlib.h>
+#include <iostream>
+
+namespace spiv 
+	{
+
+/* copy */
+
+/*template <class T, typename N>
+inline void copy (N num, T* ab, T* ad) {
+	for (N i = 0; i < num; i++) {
+		ad[i] = ab[i];
+	}
+}*/
+
+#define copy(N,ab,ad) for (unsigned i = 0; i < N; i++) (ad[i]) = (ab[i]);
+
+/* modulo numerical wrap */
+
+template <typename N>
+N wrapvalue (N out, N min, N max) {return (out % (max - min) + min);}
+
+
+/*slighterly easier rand() functions*/
+
+template <typename N>
+N getrand (N min, N max) {return wrapvalue (N (rand ()), min, max);}
+
+template <typename N>
+N randomize (N& var, N min, N max) {
+	N prev = var;
+	var = getrand (min, max);
+	return prev;
+}
+
+//comparatives
+
+enum comparative {
+	none = 0,
+	smaller,	//1
+	equal,		//2
+	greater		//3
+};
+
+template <typename N>
+inline comparative relation (N A,N B) {//property of A with respect to B
+	if (A < B) return smaller;
+	if (A == B) return equal;
+	if (A > B) return greater;
+	return none;//since someone might define a class which can have none of the available comparisons.
+}
+
+template <typename N>
+inline N choose (comparative selector, N A, N B, N C) {
+	switch (selector) {
+		case smaller:
+			return A;
+		case equal:
+			return B;
+		case greater:
+			return C;
+	}
+}//maybe macro instead?
+
+//array
+
+
+/*
+template <class T>
+class array {
+protected:
+	unsigned _size;
+	T* _set;
+public:
+	void append (unsigned num, T* data) {
+		T* next = new T [_size + num];
+		copy(_size, _set, next);
+		copy(num, data, (next+_size));
+		if (_size != 0) delete[] _set;
+		std::cout << _size << ',' << num << ';';
+		_set = next;
+		_size += num;
+//	std::cout << '*';
+	}
+	T& operator[] (signed n) {return _set [n % _size];}
+	T& member (signed n) {return _set [n % _size];}
+	unsigned size () {return _size;}
+	
+	array<T> () {_size = 0; _set = 0;}
+	array<T> (unsigned num, T* set) {
+		if (num != 0) {
+			_set = new T [num];
+			copy (num, set, _set);
+		}
+		_size = num;
+	}
+	array<T> (unsigned num, T** set) {
+		if (num != 0) {
+			_set = new T [num];
+			for (unsigned i = 0; i < num; i++) {
+				_set [i] = *(set [i]);
+			}
+		}
+		_size = num;
+	}
+	array<T> (unsigned num, T filler) {
+		if (num != 0) {
+			_set = new T [num];
+			for (unsigned i = 0; i < num; i++) {
+				_set [i] = filler;
+			}
+		}
+		_size = num;
+	}
+	~array<T> () {if (_size != 0) delete[] _set;}
+	
+	array<T> operator= (array<T> base) {
+		if (_size != 0) delete[] _set;
+		_size = base._size;
+		if (_size != 0) {
+			_set = new T [_size];
+			copy (_size, base._set, _set);
+		}
+	}
+	array<T> operator+= (T add) {append (1, &add);}
+//	array<T> operator+= (array<T> add) {append (add._size, add._set);}
+};
+
+template <class T>
+array<T> operator+ (array<T> base, T add) {base.append (1, &add); return base;}
+//template <class T>
+//array<T> operator+ (array<T> base, array<T> add) {return (base += add);}
+*/
+
+	}
+
+
+#endif
