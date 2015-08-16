@@ -1,7 +1,7 @@
 
-camera playercam;
-RECT gameClient;
+#include "handle.cpp"
 
+/* 
 struct dcStruct {
 private:
 	bool colstate;
@@ -30,16 +30,13 @@ public:
     
     
 };
-
+ */
 
 
 struct screenpoly {
     std::vector<POINT> vertices;
     DWORD pen, brush;
-    bool print (dcStruct dat) {
-		dat.prepCol(pen, brush); //Use smart struct to handle colors efficiently
-        return Polygon (dat.dc, &vertices[0], vertices.size ()); //get API to handle the rest, and pass the result back.
-    }
+    bool print (paintable& out) {return out.drawPolygon (&vertices[0], vertices.size (), pen, brush);}
 //tors
     screenpoly (
         POINT* vert, unsigned num, 
@@ -48,7 +45,7 @@ struct screenpoly {
         vertices = std::vector<POINT> (vert, vert + num); 
         pen = penc; brush = brushc;
     }
-    screenpoly (camera& cam, Tact::basic_block& base, DWORD penc = 0x00FFFFFF, DWORD brushc = 0) {
+    screenpoly (camera& cam, Tact::block_base& base, DWORD penc = 0x00FFFFFF, DWORD brushc = 0) {
         copair* vert = batchdraw(cam, base.vertices);
         POINT* begin = (POINT*)vert;
         POINT* end = begin + base.vertices.size();
@@ -80,71 +77,51 @@ screenpoly RECT2pol (long* Bs, DWORD pen, DWORD brush) {
 
 
 
-void init () {
-    srand(GetCurrentTime());
-    gameClient.left = 50;
-    gameClient.top = 50;
-    
-    gameClient.right = 550;
-    gameClient.bottom = 550;
-    
-    playercam.rec = *(bounds*)&gameClient;
-    
-    
-
+RECT Bound2Rect(bounds base) {
+	RECT out;
+	out.left	= base.dir.west;
+	out.top		= base.dir.north;
+	out.right	= base.dir.east;
+	out.bottom	= base.dir.south;
+	return out;
 }
 
-
-int v = 0;
-
-void render (dcStruct dat, RECT& region) {
-    RECT eq;
-    eq.top = eq.left = 0;
-    eq.right = region.right - region.left;
-    eq.bottom = region.bottom - region.top;
-    bounds oldrec = playercam.rec;
-    playercam.rec = *(bounds*)& eq;
+void render (HDC dat, RECT ClientRect, camera &playercam) {//I need to rip this abomination to shreds some time
+    RECT eq = Bound2Rect(playercam.rec);
+    DDBHandler buffer;
+	RECT BufferRect;
     
     //initialise buffer
-    dcStruct buffer;
-    buffer.dc = CreateCompatibleDC(dat.dc);
-    HBITMAP hbmBuffer = CreateCompatibleBitmap(dat.dc, eq.right, eq.bottom);
-    HBITMAP hbmOldBuffer = (HBITMAP)SelectObject(buffer.dc, hbmBuffer);
+	BufferRect.left = BufferRect.top = 0;
+	BufferRect.right = ClientRect.right - ClientRect.left;
+	BufferRect.top = ClientRect.bottom - ClientRect.top;
+	
+	buffer.open(dat, BufferRect.right, BufferRect.bottom);
+	
+    //Empty buffer bitmap
+    FillRect(buffer.get(), &BufferRect, (HBRUSH)GetStockObject(BLACK_BRUSH));
     
-    
-    
-    //Empty the entire screen
-    FillRect(buffer.dc, &eq, (HBRUSH)GetStockObject(BLACK_BRUSH));
-    
-    Tact::basic_block pol;
+	//ad-hoc poly construction
+	Tact::block_base pol;
     
     pol.vertices.push_back(Tact::point(-20.0, -20.0));
     pol.vertices.push_back(Tact::point(+20.0, -20.0));
+    pol.vertices.push_back(Tact::point(+30.0, 0.0));
     pol.vertices.push_back(Tact::point(+20.0, +20.0));
     pol.vertices.push_back(Tact::point(-20.0, +20.0));
-    pol.fill.CRef = 0x00FFFFFF;
+	
+	//draw it
+    pol.fill.CRef = 0x000088FF;
     screenpoly out ((POINT*)batchdraw(playercam, pol.vertices), pol.vertices.size(), 0x00FFFFFF, pol.fill.CRef);
     out.print(buffer);
-    //Rectangle(dat.dc, 105, 115, 100, 110);
     
-    
-    
-    
-    std::stringstream s;
-    s << v++ << ": " << (long)playercam.focus.x() << ", " << (long)playercam.focus.y();
-    std::string sstr = s.str();
-    DrawText(buffer.dc, TEXT(sstr.c_str()),sstr.length(), &eq, DT_TOP|DT_LEFT);
-
     
     //flush buffer
-    BitBlt(dat.dc, region.left, region.top, region.right, region.bottom, buffer.dc, 0, 0, SRCCOPY);
+    BitBlt(dat, eq.left, eq.top, eq.right - eq.left, eq.bottom - eq.top, buffer.get(), eq.left, eq.top, SRCCOPY);
+    //BitBlt(dat, 50, 50, 500, 500, buffer.get(), 50, 50, SRCCOPY);
 
 	//Reset and delete buffer DC and then buffer bitmap
-    SelectObject(buffer.dc, hbmOldBuffer);
-    DeleteDC(buffer.dc);
-    DeleteObject(hbmBuffer);
-    
-    playercam.rec = oldrec;
+    buffer.close();
 }
 
 
