@@ -1,0 +1,10 @@
+This was the main vision for a game "Clash of the Programmers", a game idea that gave me the 'terminal' in the tactics project (and in fact, both other control methods.)
+
+the vision was that you controlled programmed robots in a subterranean area on a distant planet, and they had to function in accordance to the 'terminal' method itself, as they were in a blackout and thus had to be preprogrammed.
+Enemies like wildlife would be script based NPCs, and oponents would be other robots and the projectile fighting would generally be kind of fun.
+
+Other more fluffy thoughts came about, but these don't serve very well in the interest of this concept.
+
+Different 'sensors' by which robots perceived the world in different ways would be fun as well, such as spot scanners, room scanners, movement sensors:
+all providing different pros and cons to the way you are designing your 'plan' download.
+The problem with this is that cons aren't obstacles but just annoyances, which make videogames bad.

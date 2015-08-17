@@ -1,0 +1,6 @@
+Projectiles that follow parabolic projectile motion. (ignoring air resistance)
+
+Can collide with the top or bottom of platforms and blocks, or any side of a block within the platform space.
+
+Projectile trajectory can be calculated and handled in off-screen time, so optimization isn't an issue.
+

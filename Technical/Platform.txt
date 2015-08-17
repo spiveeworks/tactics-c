@@ -1,0 +1,13 @@
+A floating platform shape, suspended in 3D space.
+
+They have a collisionable floor and are given a specific designated height for wall structures to occupy.
+
+By constructing a prism in the virtual space, each platform can be assigned a “field region”, the field region of two platforms can never overlap, but can touch on their extremity.
+
+A floor thickness may be possible, but probably not until later in the project, especially since platforms won’t support 3D suspension completely anyway… Not for a long time…
+
+
+Exclusion
+
+This marks a part of a platform that isn’t occupied by floor; this way creating a hole in the floor isn’t the excruciating process of drawing a tightly folded C-shape. (which would no doubt result in collision errors if things fell smack-on the seam) This way the holes can also be more manipulable as well. (In both level editing, and in meta blocks.)
+

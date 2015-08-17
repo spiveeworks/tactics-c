@@ -1,0 +1,7 @@
+The just-now named “effectygons” will be what manages certain live gameplay aspects of the game.
+
+Effectygons will always hold the kinds of property that meta-blocks use as input, and will also have the possibility to interact quite heavily with meta-blocks. (as well as other effectygons. So then an oil slick would probably work better if it were just an effect!)
+
+The flame of a flame-thrower, the smoke or explosion of a grenade, and specialties such as liquids and chemical coverings are all possibilities of this system.
+
+The exact extent to which they will be programmable is currently unknown; the only thing I really understand is how properties and timers will work, and how meta-blocks can be used to extend their effects in map-specific ways. Things like fluid dynamic, or projectiles parting smoke would be fun and ideal, but not confirmed… I don’t know yet how it might work.

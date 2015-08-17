@@ -1,0 +1,5 @@
+Block is another word for wall. A block is a polygon that is set inside of a platform polygon; the polygon represents a wall with the height associated with the platform.
+
+Blocks are, of course, collisionable.
+
+Properties such as visibility (glass) and penetrability (plaster/otherwise thin walls) are so far unconsidered; they would likely take on a specialized polygon based off of the Block.

@@ -1,0 +1,45 @@
+A design I have long had in mind is for three different control / planning systems working together in the same game environment.
+
+Avatar
+
+Normal tactical input, in which you construct a game plan, and submit it to then see the consequences of your plan; After seeing the consequences you reevaluate and repeat the process, stepping forward until you reach your goal or screw up and get shot.
+
+The key element to avatars is their reaction time, which would control how the characters react to events, and how you think about your plan as you make it. When you submit a plan you would only see up to a point in the resulting consequences, for example:
+
+Unit with 3s reaction time:
+
+Peak around corner over 2 seconds:
+move out for 0.5,
+look for 1.0 and
+move back for 0.5
+stand behind cover for three seconds
+The five second plan would be submitted, and you would be given whatever they saw for the first (five minus three) two seconds of the plan, the remaining (in this case idle) three seconds of the plan would be locked, as a trade off for the fact that you can see what happened in the first two.
+
+This of course represents the unit spending three seconds to think about what they just saw, and evaluate the future plan they will take.
+
+Being a very central system in the game, these will be explained in a lot more detail in the future.
+
+Terminal
+
+Not sure why I chose this name for them; A terminal is a giant every-possibility-considered plan that branches depending on certain events and is generally not very much fun to develop plans in.
+
+For the most part they are exactly identical to avatars, and depending on the level design may just act as a script that saves simple tasks you have done before in case a future opponent does exactly the same thing in the early phases of your next match.
+
+They also could serve in a terminal V terminal game in which you need to develop the best plan that will push your opponent to a check mate position where they will have to reevaluate an earlier branch in their noded plan. (Whether or not either of the previous two paragraphs made sense, you don’t actually need to know what I mean)
+
+I have no idea at the moment with respect to making terminal design more dynamic, though this would be extremely important as simple adjustments in a unit’s placement would otherwise require an entirely duplicated branch. Overlapping with ideas presented in the final control type (scripts) will probably prove useful.
+
+Scripts
+
+Programmed units that aren’t controlled at all during the progress of the game. My plan for making them is to create simple scripting capabilities, and then wait for someone to learn how to use them and thus work out what their limiting feature is; when they give me feedback I would be able to significantly improve the potential of the script designing system. (So follow this blog! Leave comments! I’ll be fueled almost entirely by fanbase in not too much time at all!)
+
+Scripts would allocate nametags to entities and go through processes to determine what they ought to try doing. (that’s all I’ve got at the moment…)
+
+Script design would allow for some very powerful features to be added to terminal and avatar interface as well… This game could be good.
+
+Integrated Scripts
+
+Scripts would have the option to utilize information on the map laid out by the map-maker, to maximize the success of NPC enemies basically.
+
+Scripts would be made to use place tags, and then a map maker (perhaps the same person who made the script?) would place these place tags on their map to create an I.S. functionality.
+In the future I’ll explain the way that these three interact with eachother, and I shall also explain how the latter two systems have very strong uses in NPC construction.

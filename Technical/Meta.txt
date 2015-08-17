@@ -1,0 +1,3 @@
+Meta-blocks are also set within a polygon. The specifics can be explained in a future post, but a meta is an alternate map for the platform, alongside programmable property systems that would allow you to control when, and where, the alternate mapping would replace the current one.
+
+I don’t know if that makes sense, but the system I have in my head allows for the creation of destructible terrain, interactive elements such as oil slicks, and special map triggers, for all of your map-making needs.
