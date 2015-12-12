@@ -1,18 +1,24 @@
 
 
-struct copair {
+struct copair 
+{
 	long x, y;
-	copair& operator+= (copair r) {x += r.x; y += r.y; return *this;}
-	copair& operator-= (copair r) {x -= r.x; y -= r.y; return *this;}
+	copair& operator+= (copair r) 
+        {x += r.x; y += r.y; return *this;}
+	copair& operator-= (copair r) 
+        {x -= r.x; y -= r.y; return *this;}
 };
 
-struct bounds {
-	union {
+struct bounds 
+{
+	union 
+    {
 		struct {long west, north, east, south;} dir;
 		long el[4];
 		struct {copair topleft, bottomright;} corner;
 	};
-    copair center () const {
+    copair center () const 
+    {
         copair ret;
         ret.x = (dir.west + dir.east)/2;
         ret.y = (dir.north + dir.south)/2;
@@ -23,7 +29,8 @@ struct bounds {
 };
 //can cast directly to windows RECT, just as copair can cast directly to POINT
 
-struct camera {
+struct camera 
+{
     Tact::point focus;
     double width, height;
     double tilt;
@@ -44,9 +51,12 @@ struct camera {
         Tact::point nfocus = Tact::point (0.0, 0.0), 
         double nwidth = 100.0, double nheight = -100.0, double ntilt = 0.0);
 
-    long displaywidth  () {return rec.width() / 2;}
-    long displayheight () {return rec.height() / 2;}
-    copair displaycentre () {copair ret; ret.x = 512; ret.y = 350; return ret;}
+    long displaywidth  () const 
+        {return rec.width() / 2;}
+    long displayheight () const 
+        {return rec.height() / 2;}
+    copair displaycentre () const 
+        {copair ret; ret.x = 512; ret.y = 350; return ret;}
     
     copair draw(Tact::point loc) /*const*/;
     
@@ -54,7 +64,8 @@ struct camera {
     
 };
 
-void camera::check_dirs () {
+void camera::check_dirs () 
+{
 	if (tilt != prevtilt)
 	{
 		prevtilt = tilt;
@@ -76,7 +87,8 @@ camera::camera (bounds nrec, Tact::point nfocus,
 	//as seen in void check_dirs();
 }
 
-copair camera::draw(Tact::point loc) /*const*/ {
+copair camera::draw(Tact::point loc) /*const*/ 
+{
 	SCG::vector gap = loc - focus; //get vector from camera to loc
 	check_dirs();
 	double xR = gap * xnorm / width; //get the product of the cam-x_axis and the vector, and thence find the ratio of the component as to the screen width
@@ -94,7 +106,8 @@ copair camera::draw(Tact::point loc) /*const*/ {
 	return ret;
 }
 
-Tact::point camera::locate(copair p) /*const*/ {
+Tact::point camera::locate(copair p) /*const*/ 
+{
 	copair cen = displaycentre();
 	long relx = p.x - cen.x;
 	long rely = p.y - cen.y;
@@ -106,7 +119,8 @@ Tact::point camera::locate(copair p) /*const*/ {
 
 
 
-copair* batchdraw(camera cam, std::vector<Tact::point> vertices) {
+copair* batchdraw(camera cam, std::vector<Tact::point> vertices) 
+{
     copair* Vs = new copair [vertices.size()];
         //make sure you delete[] afterwards!
     for (unsigned i = 0; i < vertices.size(); i++)
